@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultado</title>
+    <style>
+        img {
+            width: 500px;
+        }
+    </style>
+    <script type="text/javascript">
+        function resize(id, action) {
+            var image = document.getElementById(id);
+            var width = image.clientWidth; // Obtener el ancho actual en píxeles
+
+            if (action == 'zi') {
+                image.style.width = (width * 1.1) + "px";
+            } else {
+                image.style.width = (width * 0.9) + "px";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <button onclick="resize('original', 'zi')">+</button>
+        <button onclick="resize('original', 'zo')">-</button>
+        <h1>Imagen original</h1>
+        <img src="{{ original }}" alt="original" id="original">
+    </div>
+    <div>
+	    <button onclick="resize('tratada', 'zi')">+</button>
+        <button onclick="resize('tratada', 'zo')">-</button>
+        <h1>Imagen tratada</h1>
+        <img src="{{ tratada }}" alt="tratada" id="tratada">
+    </div>
+</body>
+</html>
+

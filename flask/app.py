@@ -61,6 +61,8 @@ def predict_image(image):
 
 
 def process_image(filename, file):
+
+            class_counter = [0, 0, 0]
             # Cargar la imagen
             image = cv2.imread(filename)
             
@@ -114,11 +116,14 @@ def process_image(filename, file):
             # Filter by Area.
             params.filterByArea = True
             params.minArea = 20
-            params.maxArea = 10000       
+            params.maxArea = 10000      
 
             detector = cv2.SimpleBlobDetector_create(params)
             keypoints = detector.detect(image_gray)
             keypoints2 = detector.detect(image_gray2)
+            
+            print(os.path.join('uploads', "resize.jpg"))
+            cv2.imwrite(os.path.join('uploads', "resize.jpg"), image_gray)
 
             image_copy = image.copy()
             
@@ -129,7 +134,9 @@ def process_image(filename, file):
                 bottom_right = (x + size//2, y + size//2)
                 
                 predictions, predicted_class = predict_image(image[top_left[1]:bottom_right[1],top_left[0]:bottom_right[0]])
+                predicted_class = int(predicted_class[0])
                 if predictions[0][predicted_class] > 0.8:
+                    class_counter[predicted_class] = class_counter[predicted_class] + 1
                     if predicted_class == 0:
                         cv2.rectangle(image_copy, top_left, bottom_right, (255, 0, 0), 2)
                     elif predicted_class == 1:
@@ -144,7 +151,9 @@ def process_image(filename, file):
                 bottom_right = (x + size//2, y + size//2)
                 
                 predictions, predicted_class = predict_image(image[top_left[1]:bottom_right[1],top_left[0]:bottom_right[0]])
+                predicted_class = int(predicted_class[0])
                 if predictions[0][predicted_class] > 0.8:
+                    class_counter[predicted_class] = class_counter[predicted_class] + 1
                     if predicted_class == 0:
                         cv2.rectangle(image_copy, top_left, bottom_right, (255, 0, 0), 2)
                     elif predicted_class == 1:
@@ -156,7 +165,7 @@ def process_image(filename, file):
             filename2 = os.path.join('uploads', "2" + file.filename)
             cv2.imwrite(filename2, image_copy)
             
-            return filename2
+            return filename2, class_counter
 
 
 
@@ -167,9 +176,9 @@ def upload_file():
         if file:
             filename = os.path.join('uploads', file.filename)
             file.save(filename)
-            filename2 = process_image(filename, file)
+            filename2, class_counter = process_image(filename, file)
             
-            return render_template('result.html', original=filename, tratada=filename2)
+            return render_template('result.html', original=filename, tratada=filename2, mr=class_counter[0], nc=class_counter[1], wf=class_counter[2])
     return render_template('upload.html')
 
 @app.route('/uploads/<filename>')

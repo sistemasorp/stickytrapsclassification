@@ -38,26 +38,7 @@ def predict_image_class(model, img_array, class_labels):
 class_labels = ['MR', 'NC', 'WF']
 
 # Ruta de la imagen a clasificar
-img_path = '901.jpg'
-
-# Preprocesar la imagen
-img_array = load_and_preprocess_image(img_path, target_size=(128, 128))
-
-# Hacer la predicción
-predicted_label, predictions = predict_image_class(model, img_array, class_labels)
-
-# Mostrar los resultados
-print(f'Predicción: {predicted_label}')
-print(f'Probabilidades: {predictions}')
-
-# Mostrar la imagen
-img = image.load_img(img_path)
-plt.imshow(img)
-plt.title(f'Predicción: {predicted_label}')
-plt.axis('off')
-plt.show()
-
-img_path = 'insecto1.jpg'
+img_path = 'insecto.jpg'
 
 # Preprocesar la imagen
 img_array = load_and_preprocess_image(img_path, target_size=(128, 128))

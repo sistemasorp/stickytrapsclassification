@@ -22,15 +22,16 @@
 </head>
 <body>
     <div>
+		<h1>Imagen original</h1>
         <button onclick="resize('original', 'zi')">+</button>
         <button onclick="resize('original', 'zo')">-</button>
-        <h1>Imagen original</h1>
         <img src="{{ original }}" alt="original" id="original">
     </div>
     <div>
+		<h1>Imagen tratada</h1>
+		<span>Macrolophus: {{mr}} </span><span>Nesidiocoris: {{nc}} </span><span>Trialeurodes vaporariorum: {{wf}}</span><br>
 	    <button onclick="resize('tratada', 'zi')">+</button>
         <button onclick="resize('tratada', 'zo')">-</button>
-        <h1>Imagen tratada</h1>
         <img src="{{ tratada }}" alt="tratada" id="tratada">
     </div>
 </body>
